@@ -42,26 +42,26 @@ class FilmController extends Controller
      *    schema="Film",
      *     required={"nom", "synopsis", "note", "date_de_sortie"},
      *     @OA\Property(
-     *     property="nom",
-     *     type="string",
-     *     description="Nom du film"
-     *    ),
+     *      property="nom",
+     *      type="string",
+     *      description="Nom du film"
+     *     ),
      *     @OA\Property(
-     *     property="synopsis",
-     *     type="string",
-     *     description="Synopsis du film"
-     *   ),
+     *      property="synopsis",
+     *      type="string",
+     *      description="Synopsis du film"
+     *     ),
      *     @OA\Property(
-     *     property="note",
-     *     type="number",
-     *     description="Note du film"
-     *  ),
+     *      property="note",
+     *      type="number",
+     *      description="Note du film"
+     *     ),
      *     @OA\Property(
-     *     property="date_de_sortie",
-     *     type="string",
-     *     format="date",
-     *     description="Date de sortie du film"
-     * )
+     *      property="date_de_sortie",
+     *      type="string",
+     *      format="date",
+     *      description="Date de sortie du film"
+     *     )
      * )
      *
      *
@@ -205,6 +205,7 @@ class FilmController extends Controller
             unset($film->categories);
         });
 
+
         $meta_paginate = [
             'total' => $data->total(),
             'per_page' => $data->perPage(),
@@ -214,10 +215,7 @@ class FilmController extends Controller
             'last_page' => $data->lastPage(),
         ];
 
-        return response()->json([
-            'data' => $data->items(),
-            'meta_paginate' => $meta_paginate,
-        ]);
+        return response()->json($data);
     }
 
     public function getFilmCategory($id)

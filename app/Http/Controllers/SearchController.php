@@ -18,6 +18,7 @@ class SearchController extends Controller
         }
 
         $films = Film::where('nom', 'like', "%$query%")
+            ->orWhere('synopsis', 'like', "%$query%")
             ->get();
 
         return response()->json($films);
