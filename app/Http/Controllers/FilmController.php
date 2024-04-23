@@ -232,15 +232,12 @@ class FilmController extends Controller
 
     public function store(StoreFilmRequest $request)
     {
-
-
         $film = new Film();
         $film->nom = $request->nom;
         $film->synopsis = $request->synopsis;
         $film->note = $request->note;
         $film->date_de_sortie = $request->date_de_sortie;
 
-        logger($request->all());
         if ($request->poster) {
             $file = $request->file('poster');
             $filename = uniqid() . '.' . $request->file('poster')->getClientOriginalExtension();
