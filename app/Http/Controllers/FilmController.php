@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFilmRequest;
+use App\Models\Category;
 use App\Models\Film;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -193,6 +194,17 @@ class FilmController extends Controller
         $itemsPerPage = max(1, min(20, $request->input('items_per_page', 10)));
         $data = Film::paginate($request->input('per_page', $itemsPerPage));
 
+        $data->each(function ($film) {
+            $category = $film->categories;
+            $film->linked_categorie = $category->map(function ($category) {
+                return [
+                    'id' => $category->id,
+                    'name' => $category->nom,
+                ];
+            });
+            unset($film->categories);
+        });
+
         $meta_paginate = [
             'total' => $data->total(),
             'per_page' => $data->perPage(),
@@ -206,6 +218,18 @@ class FilmController extends Controller
             'data' => $data->items(),
             'meta_paginate' => $meta_paginate,
         ]);
+    }
+
+    public function getFilmCategory($id)
+    {
+        $film = Film::find($id);
+        $categories = $film->categories;
+
+        $categories->each(function ($film) {
+            unset($film->pivot);
+        });
+
+        return response()->json($categories);
     }
 
     public function store(StoreFilmRequest $request)

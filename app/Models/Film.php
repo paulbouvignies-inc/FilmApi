@@ -11,6 +11,8 @@ class Film extends Model
 
     protected $table = 'films';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'nom',
         'synopsis',
@@ -18,6 +20,10 @@ class Film extends Model
         'date_de_sortie',
     ];
 
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
 
 
 }

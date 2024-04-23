@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FilmController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -14,4 +15,8 @@ Route::group(['middleware' => 'App\Http\Middleware\checkAcceptHeader'], function
     Route::get('/films/{id}', [FilmController::class, 'show'])->name('films.show');
     Route::put('/films/{id}', [FilmController::class, 'update'])->name('films.update');
     Route::delete('/films/{id}', [FilmController::class, 'destroy'])->name('films.destroy');
+    Route::get('/films/{id}/categories', [FilmController::class, 'getFilmCategory'])->name('films.categories');
+
+    Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+    Route::get('/categories/{id}', [CategoryController::class, 'getCatgory'])->name('categories.films');
 });
