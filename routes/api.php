@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FilmController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,4 +20,6 @@ Route::group(['middleware' => 'App\Http\Middleware\checkAcceptHeader'], function
 
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
     Route::get('/categories/{id}', [CategoryController::class, 'getCatgory'])->name('categories.films');
+
+    Route::get('/search', [SearchController::class, 'search'])->name('films.search');
 });
