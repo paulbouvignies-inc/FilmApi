@@ -190,9 +190,22 @@ class FilmController extends Controller
     public function index(Request $request)
     {
 
-        logger($request->header('Accept'));
-       $films = Film::all();
-       return response()->json($films);
+        $itemsPerPage = max(1, min(20, $request->input('items_per_page', 10)));
+        $data = Film::paginate($request->input('per_page', $itemsPerPage));
+
+        $meta_paginate = [
+            'total' => $data->total(),
+            'per_page' => $data->perPage(),
+            'current_page' => $data->currentPage(),
+            'prev_page_url' => $data->previousPageUrl(),
+            'next_page_url' => $data->nextPageUrl(),
+            'last_page' => $data->lastPage(),
+        ];
+
+        return response()->json([
+            'data' => $data->items(),
+            'meta_paginate' => $meta_paginate,
+        ]);
     }
 
     public function store(StoreFilmRequest $request)

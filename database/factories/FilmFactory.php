@@ -18,7 +18,7 @@ class FilmFactory extends Factory
     {
         return [
             'nom' => $this->faker->name,
-            'synopsis' => $this->faker->realText(2048),
+            'synopsis' => $this->faker->realText(200),
             'note' => $this->faker->numberBetween(0, 5),
             'date_de_sortie' => $this->faker->date
         ];
