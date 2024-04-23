@@ -11,3 +11,7 @@ This is a api that allows users to create, read, update and delete films.
 3. Run `php artisan migrate`
 4. Run `php artisan db:seed`
 5. Run `php artisan serve`
+
+## Swagger
+
+`/api/documentation`
