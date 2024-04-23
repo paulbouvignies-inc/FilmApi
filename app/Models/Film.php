@@ -18,6 +18,7 @@ class Film extends Model
         'synopsis',
         'note',
         'date_de_sortie',
+        'poster'
     ];
 
     public function categories()

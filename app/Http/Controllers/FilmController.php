@@ -239,6 +239,15 @@ class FilmController extends Controller
         $film->synopsis = $request->synopsis;
         $film->note = $request->note;
         $film->date_de_sortie = $request->date_de_sortie;
+
+        logger($request->all());
+        if ($request->poster) {
+            $file = $request->file('poster');
+            $filename = uniqid() . '.' . $request->file('poster')->getClientOriginalExtension();
+            $file->move(public_path('films/poster'), $filename);
+            $film->poster = 'films/poster/' . $filename;
+        }
+
         $film->save();
         return response()->json($film, 201);
     }

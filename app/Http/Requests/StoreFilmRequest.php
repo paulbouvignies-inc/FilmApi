@@ -25,9 +25,10 @@ class StoreFilmRequest extends FormRequest
     {
         return [
             'nom' => ['required', 'string', 'max:128'],
-            'synopsis' => ['required', 'string', 'max:2048'],
-            'note' => ['required', 'numeric', 'min:0', 'max:5'],
-            'date_de_sortie' => ['required', 'date']
+            'synopsis' => ['nullable', 'string', 'max:2048'],
+            'note' => ['nullable', 'numeric', 'min:0', 'max:5'],
+            'date_de_sortie' => ['nullable', 'date'],
+            'poster' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ];
     }
 
@@ -47,7 +48,10 @@ class StoreFilmRequest extends FormRequest
             'note.numeric' => 'La note doit être un nombre',
             'note.min' => 'La note doit être supérieure ou égale à 0',
             'note.max' => 'La note doit être inférieure ou égale à 5',
-            'date_de_sortie.date' => 'La date de sortie doit être une date'
+            'date_de_sortie.date' => 'La date de sortie doit être une date',
+            'poster.image' => 'Le poster doit être une image',
+            'poster.mimes' => 'Le poster doit être une image de type jpeg, png, jpg, gif ou svg',
+            'poster.max' => 'Le poster doit faire moins de 2048 ko'
         ];
     }
 
