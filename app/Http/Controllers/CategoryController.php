@@ -9,6 +9,65 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
 
+    /**
+     * @OA\Tag(
+     *     name="Category",
+     *     description="Category API"
+     * )
+     *
+     * @OA\Get(
+     *     path="/categories",
+     *     tags={"Category"},
+     *     summary="Get all categories",
+     *     operationId="index",
+     *     @OA\Response(
+     *     response=200,
+     *     description="Successful operation",
+     *     @OA\JsonContent(
+     *     type="array",
+     *     @OA\Items(ref="#/components/schemas/Category")
+     *  )
+     * )
+     * )
+     *
+     *
+     * @OA\Get(
+     *     path="/categories/{id}",
+     *     tags={"Category"},
+     *     summary="Get films by category",
+     *     operationId="getCatgory",
+     *     @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     description="Category ID",
+     *     required=true,
+     *     @OA\Schema(
+     *     type="integer"
+     *   )
+     * ),
+     *     @OA\Response(
+     *     response=200,
+     *     description="Successful operation",
+     *     @OA\JsonContent(
+     *     type="array",
+     *     @OA\Items(ref="#/components/schemas/Film")
+     * )
+     * ),
+     *     @OA\Response(
+     *     response=404,
+     *     description="Category not found",
+     *     @OA\JsonContent(
+     *     type="object",
+     *     @OA\Property(
+     *     property="message",
+     *     type="string"
+     *  )
+     * )
+     * )
+     * )
+     *
+     */
+
     public function index()
     {
         $categories = Category::all();

@@ -40,30 +40,87 @@ class FilmController extends Controller
      *
      * @OA\Schema(
      *    schema="Film",
-     *     required={"nom", "synopsis", "note", "date_de_sortie"},
+     *     title="Film",
+     *     required={"title"},
      *     @OA\Property(
-     *      property="nom",
-     *      type="string",
-     *      description="Nom du film"
-     *     ),
+     *     property="id",
+     *     type="integer",
+     *     format="int64",
+     *     description="The film ID"
+     *  ),
      *     @OA\Property(
-     *      property="synopsis",
-     *      type="string",
-     *      description="Synopsis du film"
-     *     ),
+     *     property="title",
+     *     type="string",
+     *     description="The film title"
+     * ),
      *     @OA\Property(
-     *      property="note",
-     *      type="number",
-     *      description="Note du film"
-     *     ),
+     *     property="release_date",
+     *     type="string",
+     *     format="date",
+     *     description="The film release date"
+     * ),
      *     @OA\Property(
-     *      property="date_de_sortie",
-     *      type="string",
-     *      format="date",
-     *      description="Date de sortie du film"
-     *     )
+     *     property="runtime",
+     *     type="integer",
+     *     description="The film runtime"
+     * ),
+     *     @OA\Property(
+     *     property="director",
+     *     type="string",
+     *     description="The film director"
+     * ),
+     *     @OA\Property(
+     *     property="plot",
+     *     type="string",
+     *     description="The film plot"
+     * ),
+     *     @OA\Property(
+     *     property="rating",
+     *     type="number",
+     *     format="integer",
+     *     description="The film rating"
+     * ),
+     *    @OA\Property(
+     *     property="posterUrl",
+     *     type="string",
+     *     description="The film poster URL"
+     * ),
+     *     @OA\Property(
+     *     property="linked_categorie",
+     *     type="array",
+     *     @OA\Items(
+     *     type="object",
+     *     @OA\Property(
+     *     property="id",
+     *     type="integer",
+     *     format="int64",
+     *     description="The category ID"
+     *   ),
+     *     @OA\Property(
+     *     property="name",
+     *     type="string",
+     *     description="The category name"
+     *  )
      * )
-     *
+     * )
+     * )
+     * @OA\Schema(
+     *     schema="Category",
+     *     title="Category",
+     *     required={"nom"},
+     *     @OA\Property(
+     *     property="id",
+     *     type="integer",
+     *     format="int64",
+     *     description="The category ID"
+     * ),
+     *     @OA\Property(
+     *     property="nom",
+     *     type="string",
+     *     description="The category name"
+     * )
+     * )
+
      *
      *
      * @OA\Get(
@@ -185,6 +242,36 @@ class FilmController extends Controller
      *     description="Film not found"
      * )
      * )
+     *
+     *
+     * @OA\Get(
+     *     path="/films/{id}/categories",
+     *     summary="Get all categories of a film",
+     *     tags={"Films"},
+     *     @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     required=true,
+     *     description="ID of the film",
+     *     @OA\Schema(
+     *     type="integer"
+     *  )
+     * ),
+     *     @OA\Response(
+     *     response=200,
+     *     description="Success",
+     *     @OA\JsonContent(
+     *     type="array",
+     *     @OA\Items(ref="#/components/schemas/Category")
+     * )
+     * ),
+     *     @OA\Response(
+     *     response=404,
+     *     description="Film not found"
+     * )
+     * )
+     *
+     *
      *
      *
      */

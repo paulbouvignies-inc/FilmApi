@@ -20,6 +20,80 @@
         }
     ],
     "paths": {
+        "/categories": {
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Get all categories",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Category"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/categories/{id}": {
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Get films by category",
+                "operationId": "getCatgory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Film"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Category not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/films": {
             "get": {
                 "tags": [
@@ -189,34 +263,173 @@
                     }
                 }
             }
+        },
+        "/films/{id}/categories": {
+            "get": {
+                "tags": [
+                    "Films"
+                ],
+                "summary": "Get all categories of a film",
+                "operationId": "ab3e38ee8f8b0c29b172c784a6abb87f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the film",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Category"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Film not found"
+                    }
+                }
+            }
+        },
+        "/search": {
+            "get": {
+                "tags": [
+                    "Search"
+                ],
+                "summary": "Search for films",
+                "operationId": "search",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Search query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Film"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No films found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
             "Film": {
+                "title": "Film",
                 "required": [
-                    "nom",
-                    "synopsis",
-                    "note",
-                    "date_de_sortie"
+                    "title"
                 ],
                 "properties": {
-                    "nom": {
-                        "description": "Nom du film",
+                    "id": {
+                        "description": "The film ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "title": {
+                        "description": "The film title",
                         "type": "string"
                     },
-                    "synopsis": {
-                        "description": "Synopsis du film",
-                        "type": "string"
-                    },
-                    "note": {
-                        "description": "Note du film",
-                        "type": "number"
-                    },
-                    "date_de_sortie": {
-                        "description": "Date de sortie du film",
+                    "release_date": {
+                        "description": "The film release date",
                         "type": "string",
                         "format": "date"
+                    },
+                    "runtime": {
+                        "description": "The film runtime",
+                        "type": "integer"
+                    },
+                    "director": {
+                        "description": "The film director",
+                        "type": "string"
+                    },
+                    "plot": {
+                        "description": "The film plot",
+                        "type": "string"
+                    },
+                    "rating": {
+                        "description": "The film rating",
+                        "type": "number",
+                        "format": "integer"
+                    },
+                    "posterUrl": {
+                        "description": "The film poster URL",
+                        "type": "string"
+                    },
+                    "linked_categorie": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "description": "The category ID",
+                                    "type": "integer",
+                                    "format": "int64"
+                                },
+                                "name": {
+                                    "description": "The category name",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Category": {
+                "title": "Category",
+                "required": [
+                    "nom"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "The category ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "nom": {
+                        "description": "The category name",
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -225,8 +438,16 @@
     },
     "tags": [
         {
+            "name": "Category",
+            "description": "Category API"
+        },
+        {
             "name": "Films",
             "description": "API Endpoints of Films"
+        },
+        {
+            "name": "Search",
+            "description": "Search for films"
         }
     ]
 }
