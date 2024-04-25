@@ -1,6 +1,4 @@
-// write reamded for a laravel project
-
-# Laravel Project
+# Ynov Movie Api
 
 ## Description
 This is a api that allows users to create, read, update and delete films.
@@ -14,4 +12,9 @@ This is a api that allows users to create, read, update and delete films.
 
 ## Swagger
 
-`/api/documentation`
+The swagger documentation is available at : '/api/documentation`
+
+
+## Insonmia
+
+The Insomnia file is available at : '/insomnia.json`
