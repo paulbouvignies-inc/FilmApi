@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use SimpleXMLElement;
-use Symfony\Component\HttpFoundation\Response;
 
 class CheckAcceptHeader
 {
@@ -26,7 +25,8 @@ class CheckAcceptHeader
             array_walk_recursive($response->original, function ($value, $key) use ($xml) {
                 $xml->addChild($key, $value);
             });
-            return response($xml->asXML(),  $response->status())->header('Content-Type', 'application/xml');
+
+            return response($xml->asXML(), $response->status())->header('Content-Type', 'application/xml');
         }
 
         return $response;

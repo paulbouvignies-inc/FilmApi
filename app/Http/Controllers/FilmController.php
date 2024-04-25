@@ -6,26 +6,25 @@ use App\Http\Requests\StoreFilmRequest;
 use App\Models\Category;
 use App\Models\Film;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class FilmController extends Controller
 {
-
     /**
      * @OA\Info(
      *      version="1.0.0",
      *      title="Film API",
      *      description="Film API Documentation",
+     *
      *      @OA\Contact(
      *          email="paul.bouvignies@ynov.com",
      *          name="Paul Bouvignies"
      *     ),
+     *
      *     @OA\License(
      *          name="Apache 2.0",
      *          url="http://www.apache.org/licenses/LICENSE-2.0.html"
      *     )
      * )
-     *
      *
      * @OA\Server(
      *     url="/api",
@@ -37,11 +36,11 @@ class FilmController extends Controller
      *     description="API Endpoints of Films"
      * )
      *
-     *
      * @OA\Schema(
      *    schema="Film",
      *     title="Film",
      *     required={"title"},
+     *
      *     @OA\Property(
      *     property="id",
      *     type="integer",
@@ -88,8 +87,10 @@ class FilmController extends Controller
      *     @OA\Property(
      *     property="linked_categorie",
      *     type="array",
+     *
      *     @OA\Items(
      *     type="object",
+     *
      *     @OA\Property(
      *     property="id",
      *     type="integer",
@@ -104,10 +105,12 @@ class FilmController extends Controller
      * )
      * )
      * )
+     *
      * @OA\Schema(
      *     schema="Category",
      *     title="Category",
      *     required={"nom"},
+     *
      *     @OA\Property(
      *     property="id",
      *     type="integer",
@@ -122,16 +125,18 @@ class FilmController extends Controller
      * )
 
      *
-     *
      * @OA\Get(
      *     path="/films",
      *     summary="Get all films",
      *     tags={"Films"},
+     *
      *     @OA\Response(
      *     response=200,
      *     description="Success",
+     *
      *          @OA\JsonContent(
      *              type="array",
+     *
      *               @OA\Items(ref="#/components/schemas/Film")
      *         )
      *    )
@@ -141,35 +146,42 @@ class FilmController extends Controller
      *      path="/films/{id}",
      *      summary="Get a film",
      *      tags={"Films"},
+     *
      *      @OA\Parameter(
      *      name="id",
      *      in="path",
      *      required=true,
      *      description="ID of the film",
+     *
      *      @OA\Schema(
      *      type="integer"
      *    )
      *  ),
+     *
      *      @OA\Response(
      *      response=200,
      *      description="Success",
+     *
      *      @OA\JsonContent(ref="#/components/schemas/Film")
      *  ),
+     *
      *      @OA\Response(
      *      response=404,
      *      description="Film not found"
      *  )
      *  )
      *
-     *
      * @OA\Post(
      *     path="/films",
      *     summary="Create a film",
      *     tags={"Films"},
+     *
      *     @OA\RequestBody(
      *     required=true,
+     *
      *     @OA\JsonContent(ref="#/components/schemas/Film")
      *   ),
+     *
      *     @OA\Response(
      *     response=201,
      *     description="Created",
@@ -177,8 +189,10 @@ class FilmController extends Controller
      *     @OA\Response(
      *     response=422,
      *     description="Validation errors",
+     *
      *     @OA\JsonContent(
      *     type="object",
+     *
      *     @OA\Property(
      *     property="success",
      *     type="boolean",
@@ -197,42 +211,53 @@ class FilmController extends Controller
      *     path="/films/{id}",
      *     summary="Update a film",
      *     tags={"Films"},
+     *
      *     @OA\Parameter(
      *     name="id",
      *     in="path",
      *     required=true,
      *     description="ID of the film",
+     *
      *     @OA\Schema(
      *     type="integer"
      *   )
      * ),
+     *
      *     @OA\RequestBody(
      *     required=true,
+     *
      *     @OA\JsonContent(ref="#/components/schemas/Film")
      *  ),
+     *
      *     @OA\Response(
      *     response=200,
      *     description="Success",
+     *
      *     @OA\JsonContent(ref="#/components/schemas/Film")
      * ),
+     *
      *     @OA\Response(
      *     response=404,
      *     description="Film not found"
      * )
      * )
+     *
      * @OA\Delete(
      *     path="/films/{id}",
      *     summary="Delete a film",
      *     tags={"Films"},
+     *
      *     @OA\Parameter(
      *     name="id",
      *     in="path",
      *     required=true,
      *     description="ID of the film",
+     *
      *     @OA\Schema(
      *     type="integer"
      *  )
      * ),
+     *
      *     @OA\Response(
      *     response=200,
      *     description="Success"
@@ -243,37 +268,38 @@ class FilmController extends Controller
      * )
      * )
      *
-     *
      * @OA\Get(
      *     path="/films/{id}/categories",
      *     summary="Get all categories of a film",
      *     tags={"Films"},
+     *
      *     @OA\Parameter(
      *     name="id",
      *     in="path",
      *     required=true,
      *     description="ID of the film",
+     *
      *     @OA\Schema(
      *     type="integer"
      *  )
      * ),
+     *
      *     @OA\Response(
      *     response=200,
      *     description="Success",
+     *
      *     @OA\JsonContent(
      *     type="array",
+     *
      *     @OA\Items(ref="#/components/schemas/Category")
      * )
      * ),
+     *
      *     @OA\Response(
      *     response=404,
      *     description="Film not found"
      * )
      * )
-     *
-     *
-     *
-     *
      */
     public function index(Request $request)
     {
@@ -291,7 +317,6 @@ class FilmController extends Controller
             });
             unset($film->categories);
         });
-
 
         $meta_paginate = [
             'total' => $data->total(),
@@ -327,20 +352,19 @@ class FilmController extends Controller
         $film->plot = $request->plot;
         $film->rating = $request->rating;
 
-
         if ($request->category) {
             Category::find($request->category)->films()->save($film);
         }
 
-
         if ($request->posterUrl) {
             $file = $request->file('posterUrl');
-            $filename = uniqid() . '.' . $request->file('posterUrl')->getClientOriginalExtension();
+            $filename = uniqid().'.'.$request->file('posterUrl')->getClientOriginalExtension();
             $file->move(public_path('films/poster'), $filename);
-            $film->posterUrl = 'films/poster/' . $filename;
+            $film->posterUrl = 'films/poster/'.$filename;
         }
 
         $film->save();
+
         return response()->json($film, 201);
     }
 
@@ -372,7 +396,7 @@ class FilmController extends Controller
     {
         $film = $this->getFilm($id);
 
-        if (!$film) {
+        if (! $film) {
             return response()->json([
                 'message' => 'Film not found',
             ], 404);
@@ -381,6 +405,7 @@ class FilmController extends Controller
         $film->update($request->all());
 
         $film->save();
+
         return response()->json($film);
 
     }
@@ -389,14 +414,14 @@ class FilmController extends Controller
     {
         $film = $this->getFilm($id);
 
-        if (!$film) {
+        if (! $film) {
             return response()->json([
                 'message' => 'Film not found',
             ], 404);
         }
 
-
         $film->delete();
+
         return response()->json([
             'message' => 'Film deleted',
         ]);
@@ -406,11 +431,10 @@ class FilmController extends Controller
     protected function getFilm($id)
     {
         $film = Film::find($id);
-        if (!$film) {
+        if (! $film) {
             return null;
         }
 
         return $film;
     }
-
 }

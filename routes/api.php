@@ -3,10 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FilmController;
 use App\Http\Controllers\SearchController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-
 
 // middleware('api') is used to apply the CheckAcceptHeader middleware to all routes in this file
 

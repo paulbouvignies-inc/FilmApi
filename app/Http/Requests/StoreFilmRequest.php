@@ -39,7 +39,8 @@ class StoreFilmRequest extends FormRequest
      *
      * @return array<string, string>
      */
-    public function messages(): array{
+    public function messages(): array
+    {
         return [
             'nom.required' => 'Le nom est obligatoire',
             'nom.max' => 'Le nom doit faire moins de 128 caractères',
@@ -53,16 +54,16 @@ class StoreFilmRequest extends FormRequest
             'date_de_sortie.date' => 'La date de sortie doit être une date',
             'poster.image' => 'Le poster doit être une image',
             'poster.mimes' => 'Le poster doit être une image de type jpeg, png, jpg, gif ou svg',
-            'poster.max' => 'Le poster doit faire moins de 2048 ko'
+            'poster.max' => 'Le poster doit faire moins de 2048 ko',
         ];
     }
 
     public function failedValidation(Validator|\Illuminate\Contracts\Validation\Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'data'      => $validator->errors()
+            'success' => false,
+            'message' => 'Validation errors',
+            'data' => $validator->errors(),
         ], 422));
     }
 }
