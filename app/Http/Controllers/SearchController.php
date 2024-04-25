@@ -17,9 +17,16 @@ class SearchController extends Controller
             ], 404);
         }
 
-        $films = Film::where('nom', 'like', "%$query%")
-            ->orWhere('synopsis', 'like', "%$query%")
+        $films = Film::where('title', 'like', "%$query%")
+            ->orWhere('plot', 'like', "%$query%")
+            ->orWhere('director', 'like', "%$query%")
             ->get();
+
+        if ($films->isEmpty()) {
+            return response()->json([
+                'message' => 'No films found matching the search query',
+            ], 404);
+        }
 
         return response()->json($films);
     }

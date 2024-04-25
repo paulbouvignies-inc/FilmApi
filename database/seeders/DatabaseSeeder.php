@@ -7,6 +7,7 @@ use App\Models\Film;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,15 +16,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Film::factory(200)->create();
-        Category::factory(10)->create();
 
-        $films = Film::all();
-
-        foreach ($films as $film) {
-            $film->categories()->attach(Category::inRandomOrder()->take(rand(1, 3))->pluck('id'));
-        }
-
-
+        // run the seeder
+        $this->call(FilmSeeder::class);
+        $this->call(CategorySeeder::class);
+        $this->call(CategoryFilmSeeder::class);
     }
 }

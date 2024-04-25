@@ -14,11 +14,12 @@ class Film extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'nom',
-        'synopsis',
-        'note',
-        'date_de_sortie',
-        'poster'
+        'title',
+        'release_date',
+        'runtime',
+        'director',
+        'posterUrl',
+        'rating',
     ];
 
     public function categories()

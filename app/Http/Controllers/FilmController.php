@@ -233,16 +233,24 @@ class FilmController extends Controller
     public function store(StoreFilmRequest $request)
     {
         $film = new Film();
-        $film->nom = $request->nom;
-        $film->synopsis = $request->synopsis;
-        $film->note = $request->note;
-        $film->date_de_sortie = $request->date_de_sortie;
+        $film->title = $request->title;
+        $film->release_date = $request->release_date;
+        $film->runtime = $request->runtime;
+        $film->director = $request->director;
+        $film->plot = $request->plot;
+        $film->rating = $request->rating;
 
-        if ($request->poster) {
-            $file = $request->file('poster');
-            $filename = uniqid() . '.' . $request->file('poster')->getClientOriginalExtension();
+
+        if ($request->category) {
+            Category::find($request->category)->films()->save($film);
+        }
+
+
+        if ($request->posterUrl) {
+            $file = $request->file('posterUrl');
+            $filename = uniqid() . '.' . $request->file('posterUrl')->getClientOriginalExtension();
             $file->move(public_path('films/poster'), $filename);
-            $film->poster = 'films/poster/' . $filename;
+            $film->posterUrl = 'films/poster/' . $filename;
         }
 
         $film->save();
@@ -255,6 +263,16 @@ class FilmController extends Controller
         $film = $this->getFilm($id);
 
         if ($film) {
+
+            $category = $film->categories;
+            $film->linked_categorie = $category->map(function ($category) {
+                return [
+                    'id' => $category->id,
+                    'name' => $category->nom,
+                ];
+            });
+            unset($film->categories);
+
             return response()->json($film);
         } else {
             return response()->json([
@@ -266,35 +284,36 @@ class FilmController extends Controller
     public function update(Request $request, $id)
     {
         $film = $this->getFilm($id);
-        if ($film) {
 
-
-            $film->nom = $request->nom;
-            $film->synopsis = $request->synopsis;
-            $film->note = $request->note;
-            $film->date_de_sortie = $request->date_de_sortie;
-            $film->save();
-            return response()->json($film);
-        } else {
+        if (!$film) {
             return response()->json([
                 'message' => 'Film not found',
             ], 404);
         }
+
+        $film->update($request->all());
+
+        $film->save();
+        return response()->json($film);
+
     }
 
     public function destroy($id)
     {
         $film = $this->getFilm($id);
-        if ($film) {
-            $film->delete();
-            return response()->json([
-                'message' => 'Film deleted',
-            ]);
-        } else {
+
+        if (!$film) {
             return response()->json([
                 'message' => 'Film not found',
             ], 404);
         }
+
+
+        $film->delete();
+        return response()->json([
+            'message' => 'Film deleted',
+        ]);
+
     }
 
     protected function getFilm($id)

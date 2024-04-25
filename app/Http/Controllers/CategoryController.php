@@ -12,6 +12,18 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
+
+        // get films for each category
+        $categories->each(function ($category) {
+            $films = $category->films;
+            $category->linked_films = $films->map(function ($film) {
+                return [
+                    'id' => $film->id,
+                ];
+            });
+            unset($category->films);
+        });
+
         return response()->json($categories);
     }
     public function getCatgory($id)
