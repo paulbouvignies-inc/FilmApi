@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Film;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -73,6 +74,63 @@ class CategoryController extends Controller
      * )
      * )
      * )
+     *
+     * @OA\Post(
+     *     path="/categories",
+     *     tags={"Category"},
+     *     summary="Add a new category",
+     *     operationId="store",
+     *
+     *     @OA\RequestBody(
+     *     required=true,
+     *
+     *     @OA\JsonContent(ref="#/components/schemas/Category")
+     * ),
+     *
+     *     @OA\Response(
+     *     response=200,
+     *     description="Successful operation",
+     *
+     *     @OA\JsonContent(ref="#/components/schemas/Category")
+     * )
+     * )
+     *
+     * @OA\Put(
+     *     path="/categories/{id}",
+     *     tags={"Category"},
+     *     summary="Update a category",
+     *     operationId="update",
+     *     @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     description="Category ID",
+     *     required=true,
+     *     @OA\Schema(
+     *     type="integer"
+     * )
+     * ),
+     *     @OA\RequestBody(
+     *     required=true,
+     *     @OA\JsonContent(ref="#/components/schemas/Category")
+     * ),
+     *     @OA\Response(
+     *     response=200,
+     *     description="Successful operation",
+     *     @OA\JsonContent(ref="#/components/schemas/Category")
+     * ),
+     *     @OA\Response(
+     *     response=404,
+     *     description="Category not found",
+     *     @OA\JsonContent(
+     *     type="object",
+     *     @OA\Property(
+     *     property="message",
+     *     type="string"
+     * )
+     * )
+     * )
+     * )
+     *
      */
     public function index()
     {
@@ -112,5 +170,28 @@ class CategoryController extends Controller
 
         return response()->json($films);
 
+    }
+
+    public function store(Request $request)
+    {
+        $category = new Category();
+        $category->nom = $request->nom;
+        $category->save();
+
+        return response()->json($category);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $category = Category::find($id);
+
+        if (!$category) {
+            return response()->json(['message' => 'Category not found'], 404);
+        }
+
+        $category->nom = $request->nom;
+        $category->save();
+
+        return response()->json($category);
     }
 }
