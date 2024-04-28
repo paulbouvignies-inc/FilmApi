@@ -21,12 +21,7 @@ class CheckAcceptHeader
         if (str_contains($acceptHeader, 'application/json')) {
             return response()->json($response->original, $response->status());
         } elseif (str_contains($acceptHeader, 'application/xml')) {
-            $xml = new SimpleXMLElement('<root/>');
-            array_walk_recursive($response->original, function ($value, $key) use ($xml) {
-                $xml->addChild($key, $value);
-            });
-
-            return response($xml->asXML(), $response->status())->header('Content-Type', 'application/xml');
+            return response()->xml($response->original, $response->status());
         }
 
         return $response;

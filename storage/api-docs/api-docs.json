@@ -185,6 +185,37 @@
                 ],
                 "summary": "Get all films",
                 "operationId": "6f65b2a58d7d23ba8303a3417286ca1e",
+                "parameters": [
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    },
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Search query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "items_per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -385,56 +416,6 @@
                     }
                 }
             }
-        },
-        "/search": {
-            "get": {
-                "tags": [
-                    "Search"
-                ],
-                "summary": "Search for films",
-                "operationId": "search",
-                "parameters": [
-                    {
-                        "name": "q",
-                        "in": "query",
-                        "description": "Search query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Film"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "No films found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     },
     "components": {
@@ -528,10 +509,6 @@
         {
             "name": "Films",
             "description": "API Endpoints of Films"
-        },
-        {
-            "name": "Search",
-            "description": "Search for films"
         }
     ]
 }

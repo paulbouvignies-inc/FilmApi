@@ -19,6 +19,4 @@ Route::group(['middleware' => 'App\Http\Middleware\checkAcceptHeader'], function
     Route::get('/categories/{id}', [CategoryController::class, 'getCatgory'])->name('categories.films');
     Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
     Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
-
-    Route::get('/search', [SearchController::class, 'search'])->name('films.search');
 });

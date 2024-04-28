@@ -130,6 +130,37 @@ class FilmController extends Controller
      *     summary="Get all films",
      *     tags={"Films"},
      *
+     *     @OA\Parameter(
+     *     name="per_page",
+     *     in="query",
+     *     description="Number of items per page",
+     *     required=false,
+     *     @OA\Schema(
+     *     type="integer",
+     *     default=10
+     *     )
+     * ),
+     *     @OA\Parameter(
+     *     name="q",
+     *     in="query",
+     *     description="Search query",
+     *     required=false,
+     *     @OA\Schema(
+     *     type="string"
+     *    )
+     * ),
+     *     @OA\Parameter(
+     *     name="items_per_page",
+     *     in="query",
+     *     description="Number of items per page",
+     *     required=false,
+     *     @OA\Schema(
+     *     type="integer",
+     *     default=10
+     *     )
+     * ),
+     *
+     *
      *     @OA\Response(
      *     response=200,
      *     description="Success",
@@ -305,7 +336,17 @@ class FilmController extends Controller
     {
 
         $itemsPerPage = max(1, min(20, $request->input('items_per_page', 10)));
-        $data = Film::paginate($request->input('per_page', $itemsPerPage));
+
+        if ($request->has('q')) {
+            $data = Film::where('title', 'like', '%'.$request->input('q').'%')
+                ->orWhere('plot', 'like', '%'.$request->input('q').'%')
+                ->orWhere('director', 'like', '%'.$request->input('q').'%')
+                ->paginate($request->input('per_page', $itemsPerPage));
+        } else {
+            $data = Film::paginate($request->input('per_page', $itemsPerPage));
+        }
+
+        //$data = Film::paginate($request->input('per_page', $itemsPerPage));
 
         $data->each(function ($film) {
             $category = $film->categories;
